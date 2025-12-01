@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Album;
 use App\Models\Song;
-use App\Models\Royalty; // Asegúrate de que el modelo exista y se llame así
+use App\Models\Royalty;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SongController extends Controller
@@ -21,7 +23,7 @@ class SongController extends Controller
     {
         $request->validate([
             'name'       => 'required|string|max:255',
-            'album_id'   => 'required|exists:albums,album_id',
+            'album_id'   => 'nullable|exists:albums,album_id',
             'audio_file' => 'required|file|mimes:mp3,wav,ogg|max:10240',
             'cover_file' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -33,9 +35,21 @@ class SongController extends Controller
             $imagePath = $request->file('cover_file')->store('songs/images', 'public');
         }
 
+        $albumId = $request->album_id;
+
+        if (!$albumId) {
+            $newAlbum = Album::create([
+                'title'   => $request->name,
+                'user_id' => Auth::id(),
+                'path'    => $imagePath,
+            ]);
+
+            $albumId = $newAlbum->album_id;
+        }
+
         Song::create([
             'name'       => $request->name,
-            'album_id'   => $request->album_id,
+            'album_id'   => $albumId,
             'file_path'  => $audioPath,
             'image_path' => $imagePath,
             'plays'      => 0,

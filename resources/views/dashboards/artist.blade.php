@@ -59,8 +59,8 @@
             <!-- CAMBIO IMPORTANTE: Necesitamos saber a qué álbum pertenece -->
             <div>
                 <label class="block mb-1 font-semibold">Álbum</label>
-                <select name="album_id" class="w-full p-3 bg-purple-900 bg-opacity-40 rounded-lg outline-none" required>
-                    <option value="">-- Selecciona un álbum --</option>
+                <select name="album_id" class="w-full p-3 bg-purple-900 bg-opacity-40 rounded-lg outline-none">
+                    <option value="">-- Crear como Single (Nuevo Álbum) --</option>
                     @foreach ($albums as $album)
                         <option value="{{ $album->album_id }}">{{ $album->title }}</option>
                     @endforeach

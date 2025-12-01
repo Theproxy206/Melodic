@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Meta CSRF OBLIGATORIO para que funcione el registro de plays -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Melodic - Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -25,13 +26,14 @@
     <nav class="flex gap-6 text-lg">
         <a href="#" class="hover:text-pink-400 transition">Inicio</a>
         <a href="{{ route('explore') }}" class="hover:text-pink-400 transition">Explorar</a>
-        <a href="{{ route('playlists.index') }}" class="...">Mis Playlists</a>
+        <a href="{{ route('playlists.index') }}" class="hover:text-pink-400 transition">Mis Playlists</a>
     </nav>
     <div class="flex items-center gap-4">
         <span class="text-gray-200">Hola, {{ auth()->user()->username }}</span>
         <div>
             <form method="POST" action="{{ route('logout') }}">
-                @csrf <button type="submit" class="text-sm text-gray-300 hover:text-pink-500 transition">
+                @csrf
+                <button type="submit" class="text-sm text-gray-300 hover:text-pink-500 transition">
                     Cerrar sesión
                 </button>
             </form>
@@ -49,6 +51,7 @@
             @forelse ($songs as $song)
                 <div class="bg-purple-900 bg-opacity-40 p-4 rounded-lg shadow-md hover:scale-105 transition group border border-transparent hover:border-pink-500">
 
+                    <!-- IMAGEN -->
                     <div class="h-40 bg-black bg-opacity-50 rounded mb-3 flex items-center justify-center overflow-hidden relative">
                         @if ($song->image_path)
                             <img src="{{ asset('storage/' . $song->image_path) }}" class="w-full h-full object-cover">
@@ -60,13 +63,15 @@
                             </div>
                         @endif
 
+                        <!-- Botón Play Overlay (CORREGIDO) -->
                         <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer">
                             <button
                                 onclick="playSong(
                                     '{{ asset('storage/' . $song->file_path) }}',
                                     '{{ addslashes($song->name) }}',
                                     '{{ addslashes($song->album->artist->username ?? 'Desconocido') }}',
-                                    '{{ $song->image_path ? asset('storage/' . $song->image_path) : ($song->album->path ? asset('storage/' . $song->album->path) : '') }}'
+                                    '{{ $song->image_path ? asset('storage/' . $song->image_path) : ($song->album->path ? asset('storage/' . $song->album->path) : '') }}',
+                                    '{{ $song->song_id }}'  /* <--- ¡ESTE ERA EL CAMPO QUE FALTABA! */
                                 )"
                                 class="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center hover:scale-110 transition shadow-lg"
                             >
@@ -75,9 +80,11 @@
                         </div>
                     </div>
 
+                    <!-- INFO -->
                     <h3 class="font-bold text-lg truncate">{{ $song->name }}</h3>
                     <p class="text-sm text-gray-300 truncate">{{ $song->album->artist->username ?? 'Artista desconocido' }}</p>
 
+                    <!-- Botón Play Texto (Este ya estaba bien) -->
                     <button
                         onclick="playSong(
                             '{{ asset('storage/' . $song->file_path) }}',
@@ -100,11 +107,11 @@
         </div>
     </section>
 
+    <!-- Sección Playlists -->
     <section class="bg-black bg-opacity-40 p-6 rounded-xl shadow-lg border border-purple-800">
         <h2 class="text-2xl font-semibold mb-4 text-orange-400">Tus Playlists</h2>
 
         <div class="space-y-4">
-
             @forelse ($playlists as $playlist)
                 <a href="{{ route('playlist.show', $playlist) }}" class="block p-4 bg-purple-900 bg-opacity-40 rounded-lg hover:bg-purple-800 transition cursor-pointer">
                     <h3 class="font-semibold">{{ $playlist->name }}</h3>
@@ -115,10 +122,11 @@
             @empty
                 <p class="text-gray-400">Aún no has creado ninguna playlist.</p>
             @endforelse
-
         </div>
+
         <form method="POST" action="{{ route('playlist.store') }}" class="mt-6 space-y-3">
-            @csrf <div>
+            @csrf
+            <div>
                 <label for="playlist_name" class="block text-sm font-semibold text-gray-300">
                     Nombre de la nueva playlist
                 </label>
@@ -134,6 +142,8 @@
     </section>
 
 </main>
+
 @include('components.player')
+
 </body>
 </html>

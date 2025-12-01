@@ -21,14 +21,14 @@ class DatabaseSeeder extends Seeder
             SubscriptionSeeder::class,
         ]);
 
-        User::factory()->create([
+        User::create([
             'username' => 'Jane Doe',
             'email' => 'user@melodic.com',
             'password' => Hash::make('password'),
             'role' => 'user',
         ]);
 
-        User::factory()->create([
+        User::create([
             'username' => 'John Doe',
             'email' => 'artist@melodic.com',
             'password' => Hash::make('password'),
