@@ -13,16 +13,15 @@ class LabelSeeder extends Seeder
      */
     public function run(): void
     {
-        // Verificar si ya existe para no duplicar
         if (!User::where('email', 'label@melodic.com')->exists()) {
 
             User::create([
-                'username'     => 'Melodic Records', // Nombre de la disquera
+                'username'     => 'Melodic Records',
                 'email'        => 'label@melodic.com',
-                'password'     => Hash::make('password'), // Contraseña fácil para pruebas
+                'password'     => Hash::make('password'),
                 'role'         => 'label',
-                'is_suscribed' => true, // Las labels tienen acceso premium por defecto
-                'label'        => null, // Una label no tiene otra label padre
+                'is_suscribed' => true,
+                'label'        => null,
             ]);
 
             $this->command->info('¡Label de prueba creada exitosamente!');

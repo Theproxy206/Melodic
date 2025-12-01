@@ -17,7 +17,7 @@ class SubscriptionSeeder extends Seeder
 
         Subscription::create([
             'name' => 'Premium Anual',
-            'cost' => 990.00, // Un descuento
+            'cost' => 990.00,
             'months' => 12
         ]);
     }

@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('subscriptions', function (Blueprint $table) {
-            $table->id(); // Esto será tu subscription_id
-            $table->string('name');   // Ej: "Mensual", "Anual"
+            $table->id();
+            $table->string('name');
             $table->decimal('cost', 10, 2);
-            $table->unsignedTinyInteger('months'); // Duración en meses
+            $table->unsignedTinyInteger('months');
             $table->timestamps();
         });
     }
