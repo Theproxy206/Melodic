@@ -37,3 +37,9 @@ En una terminal, en la raíz del proyecto ejecuta el comando `php artisan serve`
 - **Nombre: Melodic Records**
 - **Correo: label@melodic.com**
 - **Contraseña: password**
+
+### Administrador
+
+- **Nombre: Administrador**
+- **Correo: admin@melodic.com**
+- **Contraseña: admin123**
