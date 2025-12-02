@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LabelSeeder::class,
             SubscriptionSeeder::class,
+            AdminSeeder::class,
         ]);
 
         User::create([
