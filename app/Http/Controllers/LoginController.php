@@ -46,6 +46,7 @@ class LoginController extends Controller
             'user'   => redirect()->route('dashboard.user'),
             'artist' => redirect()->route('dashboard.artist'),
             'label'  => redirect()->route('dashboard.label'),
+            'admin'  => redirect()->route('dashboard.admin'),
             default  => abort(403, 'Rol desconocido.')
         };
     }

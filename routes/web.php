@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LabelController;
 use App\Http\Controllers\LoginController;
@@ -30,6 +31,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/premium', [SubscriptionController::class, 'index'])->name('subscription.index');
     Route::post('/premium', [SubscriptionController::class, 'store'])->name('subscription.store');
+
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/dashboard/admin', [AdminController::class, 'index'])
+            ->middleware(['role:admin'])
+            ->name('dashboard.admin');
+
+        Route::post('/admin/create-label', [AdminController::class, 'storeLabel'])
+            ->middleware(['role:admin'])
+            ->name('admin.create_label');
+    });
 
     Route::middleware(['subscribed'])->group(function () {
 
