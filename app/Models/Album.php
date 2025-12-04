@@ -11,18 +11,22 @@ class Album extends Model
 {
     use HasFactory;
 
+    // 1. Definir la llave primaria (porque no es 'id')
+    protected $primaryKey = 'album_id';
+
+    // 2. Desactivar timestamps si tu tabla no tiene created_at/updated_at
+    // (Según el error que vimos antes, tu tabla no los tiene)
+    public $timestamps = false;
+
+    // 3. ¡ESTO ES LO QUE FALTABA! Permitir asignación masiva
     protected $fillable = [
         'title',
         'user_id',
         'path',
     ];
 
-    protected $primaryKey = 'album_id';
-
     /**
-     * Relación: Un álbum pertenece a un artista
-     *
-     * @return BelongsTo
+     * Relación: Un álbum pertenece a un artista (User)
      */
     public function artist(): BelongsTo
     {
@@ -31,8 +35,6 @@ class Album extends Model
 
     /**
      * Relación: Un álbum tiene muchas canciones
-     *
-     * @return HasMany
      */
     public function songs(): HasMany
     {

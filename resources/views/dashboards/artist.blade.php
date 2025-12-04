@@ -43,6 +43,17 @@
 
 <main class="px-8 py-10 space-y-16">
 
+    @if ($errors->any())
+        <div class="bg-red-500 bg-opacity-20 border border-red-500 text-red-200 px-4 py-3 rounded mb-6">
+            <strong class="font-bold">Error:</strong>
+            <ul class="list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- Subir canción -->
     <section id="subir" class="bg-black bg-opacity-40 p-8 rounded-xl shadow-lg border border-purple-800 max-w-4xl mx-auto">
         <h2 class="text-3xl font-semibold mb-6 text-yellow-400">Subir nueva canción</h2>
