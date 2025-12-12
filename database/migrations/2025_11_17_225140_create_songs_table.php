@@ -29,6 +29,13 @@ return new class extends Migration
             $table->foreignId('album_id')->references('album_id')->on('albums');
             $table->timestamps();
         });
+
+        Schema::create('plays', function (Blueprint $table) {
+           $table->id('play_id');
+           $table->foreignId('song_id')->references('song_id')->on('songs');
+           $table->foreignUuid('user_id')->references('user_id')->on('users');
+           $table->timestamps();
+        });
     }
 
     /**
@@ -38,5 +45,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('songs');
         Schema::dropIfExists('albums');
+        Schema::dropIfExists('plays');
     }
 };

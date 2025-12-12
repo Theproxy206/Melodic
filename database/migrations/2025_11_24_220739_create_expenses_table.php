@@ -16,7 +16,8 @@ return new class extends Migration
             $table->decimal('amount', 13, 2);
             $table->string('state')->default('pagado');
             $table->timestamp('at')->useCurrent();
-            $table->foreignUuid('user_id')->constrained('users', 'user_id');
+            $table->foreignId('from')->nullable()->references('royalties_id')->on('royalties');
+            $table->foreignUuid('user_id')->nullable()->constrained('users', 'user_id');
 
             $table->timestamps();
         });

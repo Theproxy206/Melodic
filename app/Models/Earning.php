@@ -14,7 +14,9 @@ class Earning extends Model
     protected $fillable = [
         'amount',
         'state',
-        'at'
+        'at',
+        'subscription',
+        'comision'
     ];
 
     protected $casts = [

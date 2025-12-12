@@ -31,6 +31,8 @@ class User extends Authenticatable
         'role',
         'label',
         'is_suscribed',
+        'fin_subscription',
+        'subscription_id',
     ];
 
     /**
@@ -48,13 +50,12 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_suscribed' => 'boolean',
+        'fin_subscription' => 'date',
+    ];
 
     protected static function boot()
     {
@@ -82,7 +83,7 @@ class User extends Authenticatable
      *
      * @return HasMany
      */
-    public function playlists()
+    public function playlists(): HasMany
     {
         return $this->hasMany(Playlist::class, 'user_id', 'user_id');
     }

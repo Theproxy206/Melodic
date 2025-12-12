@@ -19,6 +19,8 @@ return new class extends Migration
             $table->char('password', 60);
             $table->string('role')->default('user');
             $table->boolean('is_suscribed')->default(false);
+            $table->date('fin_subscription')->nullable();
+            $table->foreignId('subscription_id')->nullable()->references('id')->on('subscriptions');
             $table->text('path')->nullable();
             $table->foreignUuid('label')->nullable()->references('user_id')->on('users');
             $table->rememberToken();

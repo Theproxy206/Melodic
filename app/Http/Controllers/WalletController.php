@@ -36,6 +36,7 @@ class WalletController extends Controller
                 'amount'  => $userPayout,
                 'state'   => 'pagado',
                 'at'      => now(),
+                'from'    => $royalty->royalties_id,
                 'user_id' => $user->user_id,
             ]);
 
@@ -43,6 +44,7 @@ class WalletController extends Controller
                 'amount' => $platformShare,
                 'state'  => 'pagado',
                 'at'     => now(),
+                'comision' => $royalty->royalties_id,
             ]);
 
             $royalty->amount = 0;

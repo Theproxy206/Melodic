@@ -20,6 +20,10 @@ return new class extends Migration
 
             $table->timestamp('at')->useCurrent();
 
+            $table->foreignId('subscription')->nullable()->references('id')->on('subscriptions');
+
+            $table->foreignId('comision')->nullable()->references('royalties_id')->on('royalties');
+
             $table->timestamps();
         });
     }
